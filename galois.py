@@ -11,7 +11,7 @@ def to_base(number, base):
     while number > 0:
         digit = number%base
         ret = [field[digit]]+ret
-        number/=base
+        number//=base
     if len(ret) == 0:
         ret = [field[0]]
     return ret
@@ -246,7 +246,7 @@ class FFE:
         if self.mulinv is not None:
             return self.mulinv
         if self.field is None and self.parent is not None:
-            one = FFE(self.p/self.p,self.p)
+            one = FFE(self.p.__div__(self.p),self.p)
             for e in self.parent:
                 if e*self==one:
                     self.mulinv = e
@@ -299,7 +299,7 @@ class FFE:
             return left*right, temp
 
     def __ord__(self):
-        one = self/self
+        one = self.__div__(self)
         i = 1
         result, temp = self.__smart_pow__(i)
         while result != one:
@@ -404,7 +404,7 @@ class Polynomial:
     def __add__(self, other):
         result = []
         zero = self._zero_()
-        for i in xrange(max(self.deg(), other.deg())+1):
+        for i in range(max(self.deg(), other.deg())+1):
             coef = zero
             if i <= self.deg():
                 coef = coef+self.coefficients[i]
@@ -426,7 +426,7 @@ class Polynomial:
         zero = self._zero_()
         for coresult in results:
             result.append(zero)
-            for i in xrange(len(coresult)):
+            for i in range(len(coresult)):
                 result[-i-1]+= coresult[-i-1]
         return Polynomial(result)
 
@@ -450,7 +450,7 @@ class Polynomial:
 
     def __str__(self):
         ret = ""
-        for i in xrange(self.deg()+1):
+        for i in range(self.deg()+1):
             if i!=0:
                 ret+="+"
             ret += "(%s)x^%d"%(str(self.coefficients[i]),i)
@@ -460,7 +460,7 @@ class Polynomial:
         remainder = copy.deepcopy(self)    
         zero = self._zero_()
         p_zero = Polynomial([zero])
-        one = other.coefficients[-1]/other.coefficients[-1]
+        one = other.coefficients[-1].__div__(other.coefficients[-1])
         if other==Polynomial([one]):
             return (self, Polynomial([zero]))
         x = Polynomial([zero, one])
@@ -468,7 +468,7 @@ class Polynomial:
         while remainder != p_zero and remainder.deg()>=other.deg():
             r_lead = remainder.coefficients[-1]
             o_lead = other.coefficients[-1]
-            q_part = Polynomial([r_lead/o_lead])
+            q_part = Polynomial([r_lead.__div__(o_lead)])
             q_deg = remainder.deg()-other.deg()
             if q_deg > 0:
                 q_part*= x**q_deg
@@ -506,13 +506,13 @@ class Zmod(list):
     def __init__(self, p):
         list.__init__(self)
         self.n = p
-        for i in xrange(p):
+        for i in range(p):
             self.append(FFE(i,p))
 
     def __pow__(self, n):
         assert n>=1
         perms = [[i] for i in self]
-        for i in xrange(1,n):
+        for i in range(1,n):
             new_perms = []
             for perm in perms:
                 for new in self:

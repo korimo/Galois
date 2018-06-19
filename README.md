@@ -1,12 +1,16 @@
 Galois
 ======
 
-Galois is a set of math utilities for finite fields and coding theory applications in Python.
-The tool is still in development but will be completed by the end of this summer.
-This implementation is built for python v2.
+This is a  python3 fork of
+<a href="https://github.com/Glank/Galois/"/>  project which was originally made for python 2.
+This readme file is updated version of the original readme.
 
-For examples of simple usage, please see 
-<a href="https://github.com/Glank/Galois/blob/master/examples.py">examples.py</a>.
+Galois is a set of math utilities for finite fields and coding theory applications in Python 3.
+The tool is still in development but will be completed by the end of this summer.
+This implementation is beeing rewrite python v2 version for python v3.
+
+For examples of simple usage, please see
+<a href="https://github.com/korimo/Galois/blob/master/examples.py">examples.py</a>.
 There are many more advanced examples in that file than are shown below.
 
 Jumping In - A Realistic Example:
@@ -28,7 +32,7 @@ Using Galois with Python, you can create two matricies to represent this equatio
             [5,6,4]
         ]).to_GF(8)
     b = Matrix(data=[[5,5,1]]).transpose().to_GF(8)
-    
+
 Then you can create an augmented matrix and sovle:
 
     aug = A.join_with(b)
@@ -57,14 +61,14 @@ And then do simple operations with them:
     print a-b
     print a*b
     print b/a
-    
+
 prints:
 
     7
     9
     5
     8
-    
+
 Or you can create whole Galois fields like this:
 
     gf25 = GF(25)
@@ -72,7 +76,7 @@ Or you can create whole Galois fields like this:
     b = gf25[13]
 
 Which would store the seventh and thirteenth elements of the 25-element finite field to the variables `a` and `b` respectively.
-    
+
 You can also make empty matricies if you import them from the `coding` module (included).
 By default they are in the real domain:
 
@@ -113,5 +117,5 @@ You can create polynomials using any field elements as constants.
 prints:
 
     (9)x^0+(2)x^1+(6)x^2+(2)x^3
-    
+
 You can also add, subtract, multiply, and divide polynomials.
